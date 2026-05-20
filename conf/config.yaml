@@ -1,5 +1,5 @@
 data:
-  path: data/mnist_flat.pkl
+  path: data/fmnist_flat.pkl
 
 model:
   solver: lbfgs
@@ -7,7 +7,7 @@ model:
   C: 1.0
 
 training:
-  max_iter: 1000
+  max_iter: 100
 
 exp_name: logistic regression
 checkpoints_dir: checkpoints/
