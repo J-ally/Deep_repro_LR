@@ -1,0 +1,14 @@
+# Environment
+.venv/
+
+# Mlflow and hydra outputs
+/mlruns/
+/multirun/
+/outputs/
+/mlflow.db
+
+# Data
+/data/
+
+# Pycache folders
+__pycache__/
