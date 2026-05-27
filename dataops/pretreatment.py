@@ -1,8 +1,7 @@
 """
-This module is responsible for fetching and pre-processing the MNIST dataset.
-It uses the `fetch_openml` function from the `sklearn.datasets` module to download the dataset and store it in a local directory.
-As fetch_openml is an experimental feature, it can yield to some network errors.
-In that case, you can manually download the dataset from https://www.openml.org/search?type=data&status=active&id=554&sort=runs and put it in the data/ directory
+This module is responsible for fetching and pre-processing the Fashion-MNIST dataset.
+As fetch from openml is an experimental feature, it can yield to some network errors.
+In that case, you can manually download the dataset from https://www.openml.org/search?type=data&sort=runs&id=40996 and put it in the data/ directory
 """
 from urllib.request import urlretrieve
 import os
