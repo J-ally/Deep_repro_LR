@@ -1,6 +1,7 @@
 """
 This script launch a training experiment using the config files.
 """
+
 import pickle
 import mlflow
 import hydra
@@ -14,6 +15,7 @@ import matplotlib.pyplot as plt
 ###############################################################################
 #                               Helper Functions                              #
 ###############################################################################
+
 
 def confussion_matrix(y_true, y_pred):
     """
@@ -34,37 +36,48 @@ def confussion_matrix(y_true, y_pred):
     thresh = cm.max() / 2.0
     for i in range(cm.shape[0]):
         for j in range(cm.shape[1]):
-            ax.text(j, i, cm[i, j], ha="center", va="center",
-            color="white" if cm[i, j] > thresh else "black")
+            ax.text(
+                j,
+                i,
+                cm[i, j],
+                ha="center",
+                va="center",
+                color="white" if cm[i, j] > thresh else "black",
+            )
     fig.tight_layout()
     mlflow.log_figure(fig, "confusion_matrix.png")
     plt.close(fig)
+
 
 ###############################################################################
 #                               MAIN FUNCTION                                 #
 ###############################################################################
 
-@hydra.main(config_path='conf',
-            config_name='config',
-            version_base='1.3')
+
+@hydra.main(config_path="conf", config_name="config", version_base="1.3")
 def main(cfg: DictConfig):
-    with open(cfg.data.path, 'rb') as f:
+    with open(cfg.data.path, "rb") as f:
         # Here, we prepare the data. In the case of Fashion MNIST the only preparation step is to normalize the pixel values to [0, 1].
         data = pickle.load(f)
-    X_train, y_train = data['X_train'], data['y_train']
-    X_val, y_val = data['X_val'], data['y_val']
-    X_test, y_test = data['X_test'], data['y_test']
+    X_train, y_train = data["X_train"], data["y_train"]
+    X_val, y_val = data["X_val"], data["y_val"]
+    X_test, y_test = data["X_test"], data["y_test"]
 
     X_train, X_val, X_test = X_train / 255.0, X_val / 255.0, X_test / 255.0
 
     # For this first exemple we use a simple logistic regression model from scikit learn.
     # Here we initialize the model with the hyperparameters specified in the config file: conf/config.yaml
     # https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
-    # https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression 
-    model = LogisticRegression(solver=cfg.model.solver,
-                               l1_ratio=cfg.model.l1_ratio, 
-                               C=cfg.model.C,
-                               max_iter=cfg.training.max_iter)
+    # https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+
+    ##TODO##
+    # The hyperparameter C is not used in the current implementation, but it can be added to the model initialization if needed.
+    # Add it to the config file and to the instantiation of the model !
+    model = LogisticRegression(
+        solver=cfg.model.solver,
+        l1_ratio=cfg.model.l1_ratio,
+        max_iter=cfg.training.max_iter,
+    )
 
     # Here we declare the mlflow database for logging the experiment results, the training parameters the model hyperparameters
     # and the metrics.
@@ -94,6 +107,7 @@ def main(cfg: DictConfig):
         # Log the confusion matrix for the test set
         y_test_pred = model.predict(X_test)
         confussion_matrix(y_test, y_test_pred)
+
 
 if __name__ == "__main__":
     main()

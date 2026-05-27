@@ -4,11 +4,10 @@ data:
 model:
   solver: lbfgs
   l1_ratio: 0
-  C: 1.0
 
 training:
   max_iter: 500
 
-exp_name: logistic regression
+exp_name: logistic_regression
 checkpoints_dir: checkpoints/
 mlflow_db: sqlite:///mlflow/mlflow.db
