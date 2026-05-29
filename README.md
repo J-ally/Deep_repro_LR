@@ -12,7 +12,7 @@ The important files of the repo are the following :
 - `dataops/pretraitment.py`: the script to download and preprocess the dataset.
 - `conf/config.yaml`: the configuration file for the experiment, it contains all the hyperparameters and settings for the experiment.
 
-# Installing everyting
+# Installing everything
 
 Once uv is installed ([uv install doc](https://docs.astral.sh/uv/getting-started/installation/)), to install the required dependencies, you can use the following command:
 
