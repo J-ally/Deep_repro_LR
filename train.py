@@ -54,6 +54,7 @@ def confussion_matrix(y_true, y_pred):
 ###############################################################################
 
 
+# This hydra decorators points to the config file that will be used for this experiment, in this case conf/config.yaml
 @hydra.main(config_path="conf", config_name="config", version_base="1.3")
 def main(cfg: DictConfig):
     with open(cfg.data.path, "rb") as f:
@@ -70,9 +71,6 @@ def main(cfg: DictConfig):
     # https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
     # https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
 
-    ##TODO##
-    # The hyperparameter C is not used in the current implementation, but it can be added to the model initialization if needed.
-    # Add it to the config file and to the instantiation of the model !
     model = LogisticRegression(
         solver=cfg.model.solver,
         l1_ratio=cfg.model.l1_ratio,
@@ -84,7 +82,9 @@ def main(cfg: DictConfig):
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
     # This line sets the experiment name in mlflow,
     # it will create a new experiment, if it doesn't exist or log to the existing one if it does.
-    mlflow.set_experiment(cfg.exp_name)
+    mlflow.set_experiment(
+        cfg.exp_name
+    )  # The experiment name is specified in the config file: conf/config.yaml
     with mlflow.start_run():
         mlflow.set_tag("exp_name", cfg.exp_name)
         # Log config yaml file as an artifact
