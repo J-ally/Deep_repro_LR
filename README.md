@@ -22,7 +22,7 @@ uv sync
 
 Then you need to download the dataset :
 ```bash
-uv run dataops/pretraitment.py
+uv run dataops/pretreatment.py
 ```
 
 # Running the code
